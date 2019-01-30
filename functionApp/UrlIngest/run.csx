@@ -89,7 +89,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, NextId
                 Medium = medium,
                 Url = mediumUrl
             };
-            var multiAdd = TableOperation.Insert(newUrl);
+            var multiAdd = TableOperation.InsertOrReplace(newUrl);
             await tableOut.ExecuteAsync(multiAdd); 
             result.Add(new Result 
             { 
@@ -108,7 +108,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, NextId
             RowKey = $"{shortUrl}",
             Url = url
         };
-        var singleAdd = TableOperation.Insert(newUrl);
+        var singleAdd = TableOperation.InsertOrReplace(newUrl);
         await tableOut.ExecuteAsync(singleAdd);
         result.Add(new Result 
         {
