@@ -15,7 +15,8 @@ public class Request
 {
     public bool? TagSource { get; set; }
     public bool? TagMediums { get; set; }
-    public string Input { get; set; }
+    public string Url { get; set; }
+    public string Name { get; set; }
 }
 
 public class Result 

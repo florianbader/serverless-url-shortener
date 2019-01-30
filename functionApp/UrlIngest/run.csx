@@ -44,7 +44,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, NextId
     }
 
     var result = new List<Result>();
-    var url = input.Input;
+    var url = input.Url;
+    var name = input.Name;
     bool tagMediums = input.TagMediums.HasValue ? input.TagMediums.Value : true;
     bool tagSource = (input.TagSource.HasValue ? input.TagSource.Value : true) || tagMediums;
 
@@ -79,7 +80,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, NextId
         foreach(var medium in UTM_MEDIUMS)
         {
             var mediumUrl = $"{url}&utm_medium={medium}";
-            var shortUrl = Encode(keyTable.Id++);
+            var shortUrl = string.IsNullOrWhiteSpace(name) ? Encode(keyTable.Id++) : name;
             log.Info($"Short URL for {mediumUrl} is {shortUrl}");
             var newUrl = new ShortUrl 
             {
@@ -99,7 +100,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, NextId
     }
     else 
     {
-        var shortUrl = Encode(keyTable.Id++);
+        var shortUrl = string.IsNullOrWhiteSpace(name) ? Encode(keyTable.Id++) : name;
         log.Info($"Short URL for {url} is {shortUrl}");
         var newUrl = new ShortUrl 
         {
